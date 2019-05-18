@@ -13,6 +13,7 @@ class StripeController extends CI_Controller
         parent::__construct();
         $this->load->library("session");
         $this->load->helper('url');
+        $this->load->model('transaction');
     }
 
     /**
@@ -99,6 +100,8 @@ class StripeController extends CI_Controller
             if ($chargeJson['amount_refunded'] == 0 && empty($chargeJson['failure_code']) && $chargeJson['paid'] == 1 && $chargeJson['captured'] == 1) {
 
                 // insert response into db
+                $this->transaction->response = $chargeJson;
+                $this->transaction->insert();
 
                 $data = [
                     'balance_transaction' => $chargeJson['balance_transaction'],
