@@ -13,7 +13,8 @@
     "require": {
         "php": ">=5.3.7",
         "silex/silex": "~1.1",
-        "monolog/monolog": "~1.7"
+        "monolog/monolog": "~1.7",
+        "ext-pdo_sqlite": "*"
     },
     "suggest": {
         "paragonie/random_compat": "Provides better randomness in PHP 5.x"
