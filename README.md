@@ -1,7 +1,7 @@
 # Codeigniter Stripe Integration
 Simple Stripe Payment Gateway Integration In Codeigniter
 
-#### Under Development
+![Payment Page](/screenshot/payment_page.png?raw=true)
 
 
 
