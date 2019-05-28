@@ -29,8 +29,8 @@ $root .= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAM
 $config['base_url'] = $root;
 
 /*Stripe Config*/
-$config['stripe_key'] = 'pk_test_9VtVC0sjjiXbKkE5li5Y5r6900x8yeA8pB';
-$config['stripe_secret'] = 'sk_test_9jXRQr2rDRvN7u6Vu3R0AKwS00hZCZCdHn';
+$config['stripe_key'] = 'YOUR_PUBLISHABLE_KEY';
+$config['stripe_secret'] = 'YOUR_SECRET_KEY';
 
 /*
 |--------------------------------------------------------------------------
