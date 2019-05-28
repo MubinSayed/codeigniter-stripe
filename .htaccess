@@ -1,0 +1,8 @@
+RewriteEngine On
+RewriteBase /Github/codeigniter-stripe/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /Github/codeigniter-stripe/index.php/$1 [L]
+<IfModule mod_env.c>
+    SetEnv CI_ENV development
+</IfModule>

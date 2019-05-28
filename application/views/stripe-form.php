@@ -23,24 +23,24 @@
 
     <nav class="navbar navbar-expand-md navbar-dark bg-info fixed-top">
         <div class="container">
-            <a class="navbar-brand" href=".">Stripe Payment Gateway Integration In Codeigniter (Ajax Request)</a>
+            <a class="navbar-brand" href=".">Stripe Payment Gateway Integration In Codeigniter <?php echo CI_VERSION; ?> (Ajax Request)</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                    <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="<?php echo base_url(); ?>">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="newpage.html">Another Page</a>
+                    <a class="nav-link" href="https://stripe.com/docs/testing" target="_blank">Test Cards</a>
                     </li>
                     <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Documentation</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" href="https://stripe.com/docs" target="_blank">Stripe Docs</a>
+        		    <a class="dropdown-item" href="https://stripe.com/docs/payments/checkout" target="_blank">Stripe Checkout</a>
+                    <a class="dropdown-item" href="https://stripe.com/docs/error-codes" target="_blank">Stripe Error Codes</a>
                     </div>
                     </li>
                 </ul>
@@ -86,6 +86,7 @@
 								<div class="form-group">
 									<label>Payment amount</label>
 									<h2>$100.00</h2>
+                                    <input type="hidden" name="amount" value="100">
 								</div>
 								<div class="form-row">
 									<div class="col-md-12">
@@ -97,25 +98,25 @@
 								<div class="form-row">
 									<div class="col-md-12">
 										<label for="cc-number" class="control-label">Card number</label>
-										<input id="cc-number" name="cc-number" type="tel" class="form-control cc-number identified visa number" maxlength="19" value="" required>
+										<input id="cc-number" name="cc-number" type="tel" class="form-control cc-number identified visa number" maxlength="19" value="4242424242424242" required>
 										<div class="invalid-feedback">Please enter the card number</div>
 									</div>
 								</div>
 								<div class="form-row">
 									<div class="col-4">
 										<label for="cc-month" class="control-label">Month</label>
-										<input id="cc-month" name="cc-month" type="tel" class="form-control cc-month number" value="" placeholder="MM" maxlength="2" required>
+										<input id="cc-month" name="cc-month" type="tel" class="form-control cc-month number" value="12" placeholder="MM" maxlength="2" required>
 										<div class="invalid-feedback">Please enter the exp. month</div>
 									</div>
 									<div class="col-4">
 										<label for="cc-year" class="control-label">Year</label>
-										<input id="cc-year" name="cc-year" type="tel" class="form-control cc-year number" value="" placeholder="YYYY" maxlength="4" required>
+										<input id="cc-year" name="cc-year" type="tel" class="form-control cc-year number" value="2020" placeholder="YYYY" maxlength="4" required>
 										<div class="invalid-feedback">Please enter the exp. year</div>
 									</div>
 									<div class="col-4">
 										<label for="x_card_code" class="control-label">CVV/CVV2</label>
 										<div class="input-group">
-											<input id="x_card_code" name="x_card_code" type="tel" class="form-control cc-cvc number" value="" maxlength="4" required>
+											<input id="x_card_code" name="x_card_code" type="tel" class="form-control cc-cvc number" value="123" maxlength="4" required>
 											<div class="input-group-append">
 												<span class="input-group-text"><span class="fa fa-question-circle fa-lg" data-toggle="popover" data-container="body" data-html="true" data-title="Security Code"
 												data-content="<div class='text-center one-card'>The 3 digit code on back of the card..<div class='visa-mc-cvc-preview'></div></div>"
@@ -146,6 +147,7 @@
     <!-- endbuild -->
 
     <script src="assets/js/theme.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 	<script>
@@ -165,30 +167,35 @@
                         if (form.checkValidity() === false) {
                             event.preventDefault();
                             event.stopPropagation();
+                        }else{
+                            event.preventDefault();
+
+                            $.blockUI({ css: {
+                                border: 'none',
+                                padding: '15px',
+                                backgroundColor: '#000',
+                                '-webkit-border-radius': '10px',
+                                '-moz-border-radius': '10px',
+                                opacity: .5,
+                                color: '#fff'
+                            } });
+
+                            // createToken returns immediately - the supplied callback submits the form if there are no errors
+                            Stripe.card.createToken({
+                                number: $('.cc-number').val(),
+                                cvc: $('.cc-cvc').val(),
+                                exp_month: $('.cc-month').val(),
+                                exp_year: $('.cc-year').val(),
+                                name: $('.cc-name').val(),
+                            }, stripeResponseHandler);
+
+                            $.unblockUI();
+
+                            return false; // submit from callback
                         }
                         form.classList.add('was-validated');
                     }, false);
 				});
-
-                $.blockUI({ css: { 
-                    border: 'none', 
-                    padding: '15px', 
-                    backgroundColor: '#000', 
-                    '-webkit-border-radius': '10px', 
-                    '-moz-border-radius': '10px', 
-                    opacity: .5, 
-                    color: '#fff' 
-                } });
-
-                // createToken returns immediately - the supplied callback submits the form if there are no errors
-                Stripe.card.createToken({
-                        number: $('.cc-number').val(),
-                        cvc: $('.cc-cvc').val(),
-                        exp_month: $('.cc-month').val(),
-                        exp_year: $('.cc-year').val(),
-                        name: $('.cc-name').val(),
-                }, stripeResponseHandler);
-                return false; // submit from callback
 
 			}, false);
 		})();
@@ -196,42 +203,41 @@
 	</script>
 
     <script>
-        stripeForm = document.getElementsByClassName('needs-validation');
+        window.appFilePath = '<?php echo base_url(); ?>';
+        var stripeForm = $('.needs-validation');
 
         // this identifies your website in the createToken call below
         Stripe.setPublishableKey(stripeForm.data('stripe-publishable-key'));
 
         function stripeResponseHandler(status, response) {
 
-            var stripeError = document.getElementsByClassName('alert-danger');
-            var stripeSuccess = document.getElementsByClassName('alert-success');
+            var stripeError = $('.alert-danger');
+            var stripeSuccess = $('.alert-success');
 
             if (response.error) {
 
-                stripeError.show();
+                stripeError.show().delay(3000).fadeOut();
                 $('#errorMsg').text(response.error.message);
 
             } else {
 
                 var token = response['id'];
-                stripeForm.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
-                var dataPost = $('#stripe-form').serializeArray();
+                stripeForm.append("<input type='hidden' name='stripeToken' value='" + token + "' />");
+                var dataPost = stripeForm.serializeArray();
 
-                $.post(appFilePath + "StripeController/stripePost", dataPost, function(response) {
-                    
+                $.post( appFilePath + "StripeController/stripePost", dataPost, function(response) {
+
                     $.unblockUI();
-                    console.log(response);
+                    
                     if(response.success){
 
-                        document.getElementsByClassName("needs-validation").reset();
-                        console.log('complete');
-                        stripeSuccess.show();
+                        stripeForm[0].reset();
+                        stripeSuccess.show().delay(3000).fadeOut();
                         $('#successMsg').text(response.message);
 
                     }else{
-                        
-                        stripeError.show();
-                        $('#errorMsg').text(response.error.message);
+                        stripeError.show().delay(3000).fadeOut();
+                        $('#errorMsg').text(response.message);
                     }
                 }, "json");
             }
@@ -241,19 +247,19 @@
         $(".number").keydown(function (e) {
             // Allow: backspace, delete, tab, escape, enter and .
             if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-                 // Allow: Ctrl+v, Command+V
+                // Allow: Ctrl+v, Command+V
                 (e.keyCode == 118 && ( e.ctrlKey === true || e.metaKey === true ) ) ||
-                           // Allow: Ctrl+V, Command+V
+
+                // Allow: Ctrl+V, Command+V
                 (e.keyCode == 86 && ( e.ctrlKey === true || e.metaKey === true ) ) ||
 
                 // Allow: Ctrl+A, Command+V
                 ((e.keyCode == 65 || e.keyCode == 97 || e.keyCode == 103 || e.keyCode == 99 || e.keyCode == 88 || e.keyCode == 120 )&& ( e.ctrlKey === true || e.metaKey === true ) ) ||
 
-
-                 // Allow: home, end, left, right, down, up
+                // Allow: home, end, left, right, down, up
                 (e.keyCode >= 35 && e.keyCode <= 40)) {
-                     // let it happen, don't do anything
-                     return;
+                    // let it happen, don't do anything
+                    return;
             }
             // Ensure that it is a number and stop the keypress
             if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {

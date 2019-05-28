@@ -12,6 +12,10 @@ img {
     max-width: 100%;
 }
 
+.display-hide {
+    display: none;
+}
+
 .input-group-addon {
     background-color: transparent;
     border-left: 0;

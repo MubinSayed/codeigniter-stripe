@@ -41,6 +41,7 @@ class StripeController extends CI_Controller
         $message = null;
         $success = false;
         $charge = null;
+        $err = null;
         $data = array();
 
         try {
@@ -52,7 +53,7 @@ class StripeController extends CI_Controller
 
             //charge a credit or a debit card
             $charge = \Stripe\Charge::create([
-                "amount" => $this->input->post('totalDonationAmount') * 100,
+                "amount" => $this->input->post('amount') * 100,
                 "currency" => "gbp",
                 "source" => $this->input->post('stripeToken'),
                 "description" => "TEST PAYMENT",
@@ -100,8 +101,9 @@ class StripeController extends CI_Controller
             if ($chargeJson['amount_refunded'] == 0 && empty($chargeJson['failure_code']) && $chargeJson['paid'] == 1 && $chargeJson['captured'] == 1) {
 
                 // insert response into db
-                $this->transaction->response = $chargeJson;
-                $this->transaction->insert();
+                $this->transaction->response = json_encode($chargeJson);
+                $this->transaction->status = TRANS_SUCCESS;
+                $this->transaction->insert_transaction();
 
                 $data = [
                     'balance_transaction' => $chargeJson['balance_transaction'],
@@ -114,6 +116,11 @@ class StripeController extends CI_Controller
 
             } else {
 
+                // insert response into db
+                $this->transaction->response = json_encode($chargeJson);
+                $this->transaction->status = TRANS_FAIL;
+                $this->transaction->insert_transaction();
+
                 $success = true;
                 $message = 'Something went wrong.';
             }
@@ -122,7 +129,11 @@ class StripeController extends CI_Controller
         if ($success) {
             echo json_encode(['success' => $success, 'message' => $message, 'data' => $data]);
         } else {
-            $message = 'Something went wrong.';
+            // insert response into db
+            $this->transaction->response = json_encode($err);
+            $this->transaction->status = TRANS_FAIL;
+            $this->transaction->insert_transaction();
+
             echo json_encode(['success' => $success, 'message' => $message, 'data' => $data]);
         }
     }

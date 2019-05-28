@@ -75,12 +75,12 @@ $query_builder = true;
 
 $db['default'] = array(
     'dsn' => '',
-    'hostname' => 'db4free.net',
-    'username' => 'ci_stripe',
-    'password' => '123456789',
+    'hostname' => 'localhost', //db4free.net
+    'username' => 'root', //ci_stripe
+    'password' => '', //123456789
     // 'database' => APPPATH . '/database/stripe.db',
     'database' => 'ci_stripe',
-    'dbdriver' => 'mysql',
+    'dbdriver' => 'mysqli',
     'dbprefix' => '',
     'pconnect' => false,
     'db_debug' => (ENVIRONMENT !== 'production'),
