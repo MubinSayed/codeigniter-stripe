@@ -6,5 +6,5 @@ Simple Stripe Payment Gateway Integration In Codeigniter
 
 
 ### Framework Used
-- Codeigniter 3..1.10
+- Codeigniter 3.1.10
 - Bootstrap 4
