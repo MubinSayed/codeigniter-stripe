@@ -8,6 +8,9 @@ application/logs/*
 
 !application/*/.htaccess
 
+#ignore database file
+application/config/database.php
+
 #composer.lock
 
 user_guide_src/build/*
