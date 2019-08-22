@@ -3,14 +3,11 @@
 namespace Stripe;
 
 /**
- * Class ApplePayDomain
- *
- * @package Stripe
+ * Class ApplePayDomain.
  */
 class ApplePayDomain extends ApiResource
 {
-
-    const OBJECT_NAME = "apple_pay_domain";
+    const OBJECT_NAME = 'apple_pay_domain';
 
     use ApiOperations\All;
     use ApiOperations\Create;
@@ -19,7 +16,7 @@ class ApplePayDomain extends ApiResource
 
     /**
      * @return string The class URL for this resource. It needs to be special
-     *    cased because it doesn't fit into the standard resource pattern.
+     *                cased because it doesn't fit into the standard resource pattern.
      */
     public static function classUrl()
     {

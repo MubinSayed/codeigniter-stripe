@@ -3,19 +3,16 @@
 namespace Stripe;
 
 /**
- * Class Collection
+ * Class Collection.
  *
  * @property string $object
  * @property string $url
  * @property bool $has_more
  * @property mixed $data
- *
- * @package Stripe
  */
 class Collection extends StripeObject implements \IteratorAggregate
 {
-
-    const OBJECT_NAME = "list";
+    const OBJECT_NAME = 'list';
 
     use ApiOperations\Request;
 
@@ -40,6 +37,7 @@ class Collection extends StripeObject implements \IteratorAggregate
 
         list($response, $opts) = $this->_request('get', $url, $params, $opts);
         $this->_requestParams = $params;
+
         return Util\Util::convertToStripeObject($response, $opts);
     }
 
@@ -49,6 +47,7 @@ class Collection extends StripeObject implements \IteratorAggregate
 
         list($response, $opts) = $this->_request('post', $url, $params, $opts);
         $this->_requestParams = $params;
+
         return Util\Util::convertToStripeObject($response, $opts);
     }
 
@@ -65,12 +64,13 @@ class Collection extends StripeObject implements \IteratorAggregate
             $opts
         );
         $this->_requestParams = $params;
+
         return Util\Util::convertToStripeObject($response, $opts);
     }
 
     /**
      * @return \ArrayIterator An iterator that can be used to iterate
-     *    across objects in the current page.
+     *                        across objects in the current page.
      */
     public function getIterator()
     {
@@ -79,9 +79,9 @@ class Collection extends StripeObject implements \IteratorAggregate
 
     /**
      * @return Util\AutoPagingIterator An iterator that can be used to iterate
-     *    across all objects across all pages. As page boundaries are
-     *    encountered, the next page will be fetched automatically for
-     *    continued iteration.
+     *                                 across all objects across all pages. As page boundaries are
+     *                                 encountered, the next page will be fetched automatically for
+     *                                 continued iteration.
      */
     public function autoPagingIterator()
     {

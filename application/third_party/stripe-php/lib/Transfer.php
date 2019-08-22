@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class Transfer
+ * Class Transfer.
  *
  * @property string $id
  * @property string $object
@@ -22,13 +22,10 @@ namespace Stripe;
  * @property string $source_transaction
  * @property string $source_type
  * @property string $transfer_group
- *
- * @package Stripe
  */
 class Transfer extends ApiResource
 {
-
-    const OBJECT_NAME = "transfer";
+    const OBJECT_NAME = 'transfer';
 
     use ApiOperations\All;
     use ApiOperations\Create;
@@ -40,21 +37,23 @@ class Transfer extends ApiResource
 
     /**
      * Possible string representations of the source type of the transfer.
+     *
      * @link https://stripe.com/docs/api/transfers/object#transfer_object-source_type
      */
     const SOURCE_TYPE_ALIPAY_ACCOUNT = 'alipay_account';
-    const SOURCE_TYPE_BANK_ACCOUNT   = 'bank_account';
-    const SOURCE_TYPE_CARD           = 'card';
-    const SOURCE_TYPE_FINANCING      = 'financing';
+    const SOURCE_TYPE_BANK_ACCOUNT = 'bank_account';
+    const SOURCE_TYPE_CARD = 'card';
+    const SOURCE_TYPE_FINANCING = 'financing';
 
     /**
      * @return TransferReversal The created transfer reversal.
      */
     public function reverse($params = null, $opts = null)
     {
-        $url = $this->instanceUrl() . '/reversals';
+        $url = $this->instanceUrl().'/reversals';
         list($response, $opts) = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
+
         return $this;
     }
 
@@ -63,15 +62,16 @@ class Transfer extends ApiResource
      */
     public function cancel()
     {
-        $url = $this->instanceUrl() . '/cancel';
+        $url = $this->instanceUrl().'/cancel';
         list($response, $opts) = $this->_request('post', $url);
         $this->refreshFrom($response, $opts);
+
         return $this;
     }
 
     /**
-     * @param string|null $id The ID of the transfer on which to create the reversal.
-     * @param array|null $params
+     * @param string|null       $id     The ID of the transfer on which to create the reversal.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return TransferReversal
@@ -82,9 +82,9 @@ class Transfer extends ApiResource
     }
 
     /**
-     * @param string|null $id The ID of the transfer to which the reversal belongs.
-     * @param array|null $reversalId The ID of the reversal to retrieve.
-     * @param array|null $params
+     * @param string|null       $id         The ID of the transfer to which the reversal belongs.
+     * @param array|null        $reversalId The ID of the reversal to retrieve.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return TransferReversal
@@ -95,9 +95,9 @@ class Transfer extends ApiResource
     }
 
     /**
-     * @param string|null $id The ID of the transfer to which the reversal belongs.
-     * @param array|null $reversalId The ID of the reversal to update.
-     * @param array|null $params
+     * @param string|null       $id         The ID of the transfer to which the reversal belongs.
+     * @param array|null        $reversalId The ID of the reversal to update.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return TransferReversal
@@ -108,8 +108,8 @@ class Transfer extends ApiResource
     }
 
     /**
-     * @param string|null $id The ID of the transfer on which to retrieve the reversals.
-     * @param array|null $params
+     * @param string|null       $id     The ID of the transfer on which to retrieve the reversals.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return Collection The list of reversals.

@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class TaxRate
+ * Class TaxRate.
  *
  * @property string $id
  * @property string $object
@@ -16,13 +16,10 @@ namespace Stripe;
  * @property bool $livemode
  * @property StripeObject $metadata
  * @property float $percentage
- *
- * @package Stripe
  */
 class TaxRate extends ApiResource
 {
-
-    const OBJECT_NAME = "tax_rate";
+    const OBJECT_NAME = 'tax_rate';
 
     use ApiOperations\All;
     use ApiOperations\Create;

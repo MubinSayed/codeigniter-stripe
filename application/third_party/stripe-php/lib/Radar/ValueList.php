@@ -3,7 +3,7 @@
 namespace Stripe\Radar;
 
 /**
- * Class ValueList
+ * Class ValueList.
  *
  * @property string $id
  * @property string $object
@@ -17,12 +17,10 @@ namespace Stripe\Radar;
  * @property mixed $name
  * @property int $updated
  * @property string $updated_by
- *
- * @package Stripe\Radar
  */
 class ValueList extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = "radar.value_list";
+    const OBJECT_NAME = 'radar.value_list';
 
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Create;

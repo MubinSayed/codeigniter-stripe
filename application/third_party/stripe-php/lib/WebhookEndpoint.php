@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class WebhookEndpoint
+ * Class WebhookEndpoint.
  *
  * @property string $id
  * @property string $object
@@ -13,13 +13,10 @@ namespace Stripe;
  * @property string $secret
  * @property string $status
  * @property string $url
- *
- * @package Stripe
  */
 class WebhookEndpoint extends ApiResource
 {
-
-    const OBJECT_NAME = "webhook_endpoint";
+    const OBJECT_NAME = 'webhook_endpoint';
 
     use ApiOperations\All;
     use ApiOperations\Create;

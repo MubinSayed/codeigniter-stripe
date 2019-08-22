@@ -3,7 +3,7 @@
 namespace Stripe\Terminal;
 
 /**
- * Class Reader
+ * Class Reader.
  *
  * @property string $id
  * @property string $object
@@ -15,12 +15,10 @@ namespace Stripe\Terminal;
  * @property string $location
  * @property string $serial_number
  * @property string $status
- *
- * @package Stripe\Terminal
  */
 class Reader extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = "terminal.reader";
+    const OBJECT_NAME = 'terminal.reader';
 
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Create;

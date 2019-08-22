@@ -3,7 +3,7 @@
 namespace Stripe\Issuing;
 
 /**
- * Class Dispute
+ * Class Dispute.
  *
  * @property string $id
  * @property string $object
@@ -16,12 +16,10 @@ namespace Stripe\Issuing;
  * @property string $reason
  * @property string $status
  * @property Transaction $transaction
- *
- * @package Stripe\Issuing
  */
 class Dispute extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = "issuing.dispute";
+    const OBJECT_NAME = 'issuing.dispute';
 
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Create;

@@ -56,6 +56,7 @@ class AutoPagingIterator implements \Iterator
     {
         $key = key($this->page->data);
         $valid = ($key !== null && $key !== false);
+
         return $valid;
     }
 }

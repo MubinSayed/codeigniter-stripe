@@ -28,6 +28,7 @@ class RequestOptions
     /**
      * Unpacks an options array and merges it into the existing RequestOptions
      * object.
+     *
      * @param array|string|null $options a key => value array
      *
      * @return RequestOptions
@@ -42,6 +43,7 @@ class RequestOptions
             $other_options->apiBase = $this->apiBase;
         }
         $other_options->headers = array_merge($this->headers, $other_options->headers);
+
         return $other_options;
     }
 
@@ -58,7 +60,8 @@ class RequestOptions
     }
 
     /**
-     * Unpacks an options array into an RequestOptions object
+     * Unpacks an options array into an RequestOptions object.
+     *
      * @param array|string|null $options a key => value array
      *
      * @return RequestOptions
@@ -70,11 +73,11 @@ class RequestOptions
         }
 
         if (is_null($options)) {
-            return new RequestOptions(null, [], null);
+            return new self(null, [], null);
         }
 
         if (is_string($options)) {
-            return new RequestOptions($options, [], null);
+            return new self($options, [], null);
         }
 
         if (is_array($options)) {
@@ -96,13 +99,15 @@ class RequestOptions
             if (array_key_exists('api_base', $options)) {
                 $base = $options['api_base'];
             }
-            return new RequestOptions($key, $headers, $base);
+
+            return new self($key, $headers, $base);
         }
 
         $message = 'The second argument to Stripe API method calls is an '
-           . 'optional per-request apiKey, which must be a string, or '
-           . 'per-request options, which must be an array. (HINT: you can set '
-           . 'a global apiKey by "Stripe::setApiKey(<apiKey>)")';
+           .'optional per-request apiKey, which must be a string, or '
+           .'per-request options, which must be an array. (HINT: you can set '
+           .'a global apiKey by "Stripe::setApiKey(<apiKey>)")';
+
         throw new Error\Api($message);
     }
 }

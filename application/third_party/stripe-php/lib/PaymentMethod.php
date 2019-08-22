@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class PaymentMethod
+ * Class PaymentMethod.
  *
  * @property string $id
  * @property string $object
@@ -17,13 +17,10 @@ namespace Stripe;
  * @property StripeObject $metadata
  * @property mixed $sepa_debit
  * @property string $type
- *
- * @package Stripe
  */
 class PaymentMethod extends ApiResource
 {
-
-    const OBJECT_NAME = "payment_method";
+    const OBJECT_NAME = 'payment_method';
 
     use ApiOperations\All;
     use ApiOperations\Create;
@@ -31,30 +28,32 @@ class PaymentMethod extends ApiResource
     use ApiOperations\Update;
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return PaymentMethod The attached payment method.
      */
     public function attach($params = null, $opts = null)
     {
-        $url = $this->instanceUrl() . '/attach';
+        $url = $this->instanceUrl().'/attach';
         list($response, $opts) = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
+
         return $this;
     }
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return PaymentMethod The detached payment method.
      */
     public function detach($params = null, $opts = null)
     {
-        $url = $this->instanceUrl() . '/detach';
+        $url = $this->instanceUrl().'/detach';
         list($response, $opts) = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
+
         return $this;
     }
 }

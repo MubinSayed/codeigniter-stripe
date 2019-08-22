@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class SubscriptionItem
+ * Class SubscriptionItem.
  *
  * @property string $id
  * @property string $object
@@ -14,13 +14,10 @@ namespace Stripe;
  * @property int $quantity
  * @property string $subscription
  * @property array $tax_rates
- *
- * @package Stripe
  */
 class SubscriptionItem extends ApiResource
 {
-
-    const OBJECT_NAME = "subscription_item";
+    const OBJECT_NAME = 'subscription_item';
 
     use ApiOperations\All;
     use ApiOperations\Create;
@@ -29,17 +26,18 @@ class SubscriptionItem extends ApiResource
     use ApiOperations\Update;
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return Collection The list of source transactions.
      */
     public function usageRecordSummaries($params = null, $options = null)
     {
-        $url = $this->instanceUrl() . '/usage_record_summaries';
+        $url = $this->instanceUrl().'/usage_record_summaries';
         list($response, $opts) = $this->_request('get', $url, $params, $options);
         $obj = Util\Util::convertToStripeObject($response, $opts);
         $obj->setLastResponse($response);
+
         return $obj;
     }
 }

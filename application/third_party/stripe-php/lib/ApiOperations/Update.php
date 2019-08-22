@@ -11,8 +11,8 @@ namespace Stripe\ApiOperations;
 trait Update
 {
     /**
-     * @param string $id The ID of the resource to update.
-     * @param array|null $params
+     * @param string            $id     The ID of the resource to update.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return static The updated resource.
@@ -25,6 +25,7 @@ trait Update
         list($response, $opts) = static::_staticRequest('post', $url, $params, $opts);
         $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
         $obj->setLastResponse($response);
+
         return $obj;
     }
 
@@ -41,6 +42,7 @@ trait Update
             list($response, $opts) = $this->_request('post', $url, $params, $opts);
             $this->refreshFrom($response, $opts);
         }
+
         return $this;
     }
 }

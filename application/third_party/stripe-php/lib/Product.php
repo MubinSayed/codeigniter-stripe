@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class Product
+ * Class Product.
  *
  * @property string $id
  * @property string $object
@@ -24,13 +24,10 @@ namespace Stripe;
  * @property string $unit_label
  * @property int $updated
  * @property string $url
- *
- * @package Stripe
  */
 class Product extends ApiResource
 {
-
-    const OBJECT_NAME = "product";
+    const OBJECT_NAME = 'product';
 
     use ApiOperations\All;
     use ApiOperations\Create;
@@ -40,8 +37,9 @@ class Product extends ApiResource
 
     /**
      * Possible string representations of the type of product.
+     *
      * @link https://stripe.com/docs/api/service_products/object#service_product_object-type
      */
-    const TYPE_GOOD    = 'good';
+    const TYPE_GOOD = 'good';
     const TYPE_SERVICE = 'service';
 }

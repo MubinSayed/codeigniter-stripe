@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class OrderReturn
+ * Class OrderReturn.
  *
  * @property string $id
  * @property string $object
@@ -14,13 +14,10 @@ namespace Stripe;
  * @property bool $livemode
  * @property string $order
  * @property string $refund
- *
- * @package Stripe
  */
 class OrderReturn extends ApiResource
 {
-
-    const OBJECT_NAME = "order_return";
+    const OBJECT_NAME = 'order_return';
 
     use ApiOperations\All;
     use ApiOperations\Retrieve;
