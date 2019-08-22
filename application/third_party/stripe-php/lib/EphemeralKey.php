@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class EphemeralKey
+ * Class EphemeralKey.
  *
  * @property string $id
  * @property string $object
@@ -12,13 +12,10 @@ namespace Stripe;
  * @property bool $livemode
  * @property string $secret
  * @property array $associated_objects
- *
- * @package Stripe
  */
 class EphemeralKey extends ApiResource
 {
-
-    const OBJECT_NAME = "ephemeral_key";
+    const OBJECT_NAME = 'ephemeral_key';
 
     use ApiOperations\Create {
         create as protected _create;
@@ -26,7 +23,7 @@ class EphemeralKey extends ApiResource
     use ApiOperations\Delete;
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return EphemeralKey The created key.
@@ -36,6 +33,7 @@ class EphemeralKey extends ApiResource
         if (!$opts['stripe_version']) {
             throw new \InvalidArgumentException('stripe_version must be specified to create an ephemeral key');
         }
+
         return self::_create($params, $opts);
     }
 }

@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class IssuerFraudRecord
+ * Class IssuerFraudRecord.
  *
  * @property string $id
  * @property string $object
@@ -12,13 +12,10 @@ namespace Stripe;
  * @property int $post_date
  * @property string $fraud_type
  * @property bool $livemode
- *
- * @package Stripe
  */
 class IssuerFraudRecord extends ApiResource
 {
-
-    const OBJECT_NAME = "issuer_fraud_record";
+    const OBJECT_NAME = 'issuer_fraud_record';
 
     use ApiOperations\All;
     use ApiOperations\Retrieve;

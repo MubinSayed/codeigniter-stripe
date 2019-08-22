@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class Source
+ * Class Source.
  *
  * @property string $id
  * @property string $object
@@ -37,13 +37,10 @@ namespace Stripe;
  * @property string $type
  * @property string $usage
  * @property mixed $wechat
-
- * @package Stripe
  */
 class Source extends ApiResource
 {
-
-    const OBJECT_NAME = "source";
+    const OBJECT_NAME = 'source';
 
     use ApiOperations\Create;
     use ApiOperations\Retrieve;
@@ -51,32 +48,35 @@ class Source extends ApiResource
 
     /**
      * Possible string representations of source flows.
+     *
      * @link https://stripe.com/docs/api#source_object-flow
      */
-    const FLOW_REDIRECT          = 'redirect';
-    const FLOW_RECEIVER          = 'receiver';
+    const FLOW_REDIRECT = 'redirect';
+    const FLOW_RECEIVER = 'receiver';
     const FLOW_CODE_VERIFICATION = 'code_verification';
-    const FLOW_NONE              = 'none';
+    const FLOW_NONE = 'none';
 
     /**
      * Possible string representations of source statuses.
+     *
      * @link https://stripe.com/docs/api#source_object-status
      */
-    const STATUS_CANCELED   = 'canceled';
+    const STATUS_CANCELED = 'canceled';
     const STATUS_CHARGEABLE = 'chargeable';
-    const STATUS_CONSUMED   = 'consumed';
-    const STATUS_FAILED     = 'failed';
-    const STATUS_PENDING    = 'pending';
+    const STATUS_CONSUMED = 'consumed';
+    const STATUS_FAILED = 'failed';
+    const STATUS_PENDING = 'pending';
 
     /**
      * Possible string representations of source usage.
+     *
      * @link https://stripe.com/docs/api#source_object-usage
      */
-    const USAGE_REUSABLE   = 'reusable';
+    const USAGE_REUSABLE = 'reusable';
     const USAGE_SINGLE_USE = 'single_use';
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return Source The detached source.
@@ -89,7 +89,8 @@ class Source extends ApiResource
         if (!$id) {
             $class = get_class($this);
             $msg = "Could not determine which URL to request: $class instance "
-             . "has invalid ID: $id";
+             ."has invalid ID: $id";
+
             throw new Error\InvalidRequest($msg, null);
         }
 
@@ -101,16 +102,18 @@ class Source extends ApiResource
 
             list($response, $opts) = $this->_request('delete', $url, $params, $options);
             $this->refreshFrom($response, $opts);
+
             return $this;
         } else {
-            $message = "This source object does not appear to be currently attached "
-               . "to a customer object.";
+            $message = 'This source object does not appear to be currently attached '
+               .'to a customer object.';
+
             throw new Error\Api($message);
         }
     }
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return Source The detached source.
@@ -123,31 +126,33 @@ class Source extends ApiResource
     }
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return Collection The list of source transactions.
      */
     public function sourceTransactions($params = null, $options = null)
     {
-        $url = $this->instanceUrl() . '/source_transactions';
+        $url = $this->instanceUrl().'/source_transactions';
         list($response, $opts) = $this->_request('get', $url, $params, $options);
         $obj = Util\Util::convertToStripeObject($response, $opts);
         $obj->setLastResponse($response);
+
         return $obj;
     }
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return Source The verified source.
      */
     public function verify($params = null, $options = null)
     {
-        $url = $this->instanceUrl() . '/verify';
+        $url = $this->instanceUrl().'/verify';
         list($response, $opts) = $this->_request('post', $url, $params, $options);
         $this->refreshFrom($response, $opts);
+
         return $this;
     }
 }

@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class CountrySpec
+ * Class CountrySpec.
  *
  * @property string $id
  * @property string $object
@@ -13,13 +13,10 @@ namespace Stripe;
  * @property string[] $supported_payment_methods
  * @property string[] $supported_transfer_countries
  * @property mixed $verification_fields
- *
- * @package Stripe
  */
 class CountrySpec extends ApiResource
 {
-
-    const OBJECT_NAME = "country_spec";
+    const OBJECT_NAME = 'country_spec';
 
     use ApiOperations\All;
     use ApiOperations\Retrieve;

@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class File
+ * Class File.
  *
  * @property string $id
  * @property string $object
@@ -15,8 +15,6 @@ namespace Stripe;
  * @property string $title
  * @property string $type
  * @property string $url
- *
- * @package Stripe
  */
 class File extends ApiResource
 {
@@ -24,8 +22,8 @@ class File extends ApiResource
     // versions, only `file` is used, but since stripe-php may be used with
     // any API version, we need to support deserializing the older
     // `file_upload` object into the same class.
-    const OBJECT_NAME = "file";
-    const OBJECT_NAME_ALT = "file_upload";
+    const OBJECT_NAME = 'file';
+    const OBJECT_NAME_ALT = 'file_upload';
 
     use ApiOperations\All;
     use ApiOperations\Create {
@@ -39,7 +37,7 @@ class File extends ApiResource
     }
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return \Stripe\File The created resource.
@@ -57,6 +55,7 @@ class File extends ApiResource
         foreach (\Stripe\Util\Util::flattenParams($params) as $pair) {
             $flatParams[$pair[0]] = $pair[1];
         }
+
         return static::_create($flatParams, $opts);
     }
 }

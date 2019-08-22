@@ -10,7 +10,7 @@ namespace Stripe\ApiOperations;
 trait Create
 {
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return static The created resource.
@@ -23,6 +23,7 @@ trait Create
         list($response, $opts) = static::_staticRequest('post', $url, $params, $options);
         $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
         $obj->setLastResponse($response);
+
         return $obj;
     }
 }

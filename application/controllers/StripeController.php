@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class StripeController extends CI_Controller
@@ -34,7 +35,7 @@ class StripeController extends CI_Controller
     public function stripePost()
     {
         //include Stripe PHP library
-        require_once APPPATH . "third_party/stripe-php/init.php";
+        require_once APPPATH.'third_party/stripe-php/init.php';
 
         \Stripe\Stripe::setApiKey($this->config->item('stripe_secret'));
 
@@ -42,26 +43,25 @@ class StripeController extends CI_Controller
         $success = false;
         $charge = null;
         $err = null;
-        $data = array();
+        $data = [];
 
         try {
 
             //Creates timestamp that is needed to make up orderid
-            $timestamp = strftime("%Y%m%d%H%M%S");
+            $timestamp = strftime('%Y%m%d%H%M%S');
             //You can use any alphanumeric combination for the orderid. Although each transaction must have a unique orderid.
-            $orderid = $timestamp . "-" . mt_rand(1, 999);
+            $orderid = $timestamp.'-'.mt_rand(1, 999);
 
             //charge a credit or a debit card
             $charge = \Stripe\Charge::create([
-                "amount" => $this->input->post('amount') * 100,
-                "currency" => "gbp",
-                "source" => $this->input->post('stripeToken'),
-                "description" => "TEST PAYMENT",
-                'metadata' => array(
+                'amount'      => $this->input->post('amount') * 100,
+                'currency'    => 'gbp',
+                'source'      => $this->input->post('stripeToken'),
+                'description' => 'TEST PAYMENT',
+                'metadata'    => [
                     'order_id' => $orderid,
-                ),
+                ],
             ]);
-            
         } catch (\Stripe\Error\Card $e) {
             // Since it's a decline, \Stripe\Error\Card will be caught
             $body = $e->getJsonBody();
@@ -76,7 +76,6 @@ class StripeController extends CI_Controller
             print('Message is:' . $err['message'] . "\n"); */
 
             $message = $err['message'];
-
         } catch (\Stripe\Error\RateLimit $e) {
             // Too many requests made to the API too quickly
         } catch (\Stripe\Error\InvalidRequest $e) {
@@ -92,7 +91,7 @@ class StripeController extends CI_Controller
         } catch (Exception $e) {
             // Something else happened, completely unrelated to Stripe
         }
-        
+
         if ($charge) {
             //retrieve charge details
             $chargeJson = $charge->jsonSerialize();
@@ -107,13 +106,12 @@ class StripeController extends CI_Controller
 
                 $data = [
                     'balance_transaction' => $chargeJson['balance_transaction'],
-                    'receipt_url' => $chargeJson['receipt_url'],
-                    'order_id' => $orderid,
+                    'receipt_url'         => $chargeJson['receipt_url'],
+                    'order_id'            => $orderid,
                 ];
 
                 $success = true;
                 $message = 'Payment made successfully.';
-
             } else {
 
                 // insert response into db

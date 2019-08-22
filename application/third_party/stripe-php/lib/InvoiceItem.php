@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class InvoiceItem
+ * Class InvoiceItem.
  *
  * @property string $id
  * @property string $object
@@ -24,13 +24,10 @@ namespace Stripe;
  * @property string $subscription_item
  * @property array $tax_rates
  * @property int $unit_amount
- *
- * @package Stripe
  */
 class InvoiceItem extends ApiResource
 {
-
-    const OBJECT_NAME = "invoiceitem";
+    const OBJECT_NAME = 'invoiceitem';
 
     use ApiOperations\All;
     use ApiOperations\Create;

@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class Customer
+ * Class Customer.
  *
  * @property string $id
  * @property string $object
@@ -27,13 +27,10 @@ namespace Stripe;
  * @property Collection $sources
  * @property Collection $subscriptions
  * @property Collection $tax_ids
- *
- * @package Stripe
  */
 class Customer extends ApiResource
 {
-
-    const OBJECT_NAME = "customer";
+    const OBJECT_NAME = 'customer';
 
     use ApiOperations\All;
     use ApiOperations\Create;
@@ -44,10 +41,11 @@ class Customer extends ApiResource
 
     /**
      * Possible string representations of the customer's type of tax exemption.
+     *
      * @link https://stripe.com/docs/api/customers/object#customer_object-tax_exempt
      */
-    const TAX_EXEMPT_NONE    = 'none';
-    const TAX_EXEMPT_EXEMPT  = 'exempt';
+    const TAX_EXEMPT_NONE = 'none';
+    const TAX_EXEMPT_EXEMPT = 'exempt';
     const TAX_EXEMPT_REVERSE = 'reverse';
 
     public static function getSavedNestedResources()
@@ -58,6 +56,7 @@ class Customer extends ApiResource
                 'source',
             ]);
         }
+
         return $savedNestedResources;
     }
 
@@ -74,6 +73,7 @@ class Customer extends ApiResource
         $params = $params ?: [];
         $params['customer'] = $this->id;
         $ii = InvoiceItem::create($params, $this->_opts);
+
         return $ii;
     }
 
@@ -87,6 +87,7 @@ class Customer extends ApiResource
         $params = $params ?: [];
         $params['customer'] = $this->id;
         $invoices = Invoice::all($params, $this->_opts);
+
         return $invoices;
     }
 
@@ -100,6 +101,7 @@ class Customer extends ApiResource
         $params = $params ?: [];
         $params['customer'] = $this->id;
         $iis = InvoiceItem::all($params, $this->_opts);
+
         return $iis;
     }
 
@@ -113,6 +115,7 @@ class Customer extends ApiResource
         $params = $params ?: [];
         $params['customer'] = $this->id;
         $charges = Charge::all($params, $this->_opts);
+
         return $charges;
     }
 
@@ -123,9 +126,10 @@ class Customer extends ApiResource
      */
     public function updateSubscription($params = null)
     {
-        $url = $this->instanceUrl() . '/subscription';
+        $url = $this->instanceUrl().'/subscription';
         list($response, $opts) = $this->_request('post', $url, $params);
         $this->refreshFrom(['subscription' => $response], $opts, true);
+
         return $this->subscription;
     }
 
@@ -136,9 +140,10 @@ class Customer extends ApiResource
      */
     public function cancelSubscription($params = null)
     {
-        $url = $this->instanceUrl() . '/subscription';
+        $url = $this->instanceUrl().'/subscription';
         list($response, $opts) = $this->_request('delete', $url, $params);
         $this->refreshFrom(['subscription' => $response], $opts, true);
+
         return $this->subscription;
     }
 
@@ -147,14 +152,14 @@ class Customer extends ApiResource
      */
     public function deleteDiscount()
     {
-        $url = $this->instanceUrl() . '/discount';
+        $url = $this->instanceUrl().'/discount';
         list($response, $opts) = $this->_request('delete', $url);
         $this->refreshFrom(['discount' => null], $opts, true);
     }
 
     /**
-     * @param string|null $id The ID of the customer on which to create the source.
-     * @param array|null $params
+     * @param string|null       $id     The ID of the customer on which to create the source.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return ApiResource
@@ -165,9 +170,9 @@ class Customer extends ApiResource
     }
 
     /**
-     * @param string|null $id The ID of the customer to which the source belongs.
-     * @param string|null $sourceId The ID of the source to retrieve.
-     * @param array|null $params
+     * @param string|null       $id       The ID of the customer to which the source belongs.
+     * @param string|null       $sourceId The ID of the source to retrieve.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return ApiResource
@@ -178,9 +183,9 @@ class Customer extends ApiResource
     }
 
     /**
-     * @param string|null $id The ID of the customer to which the source belongs.
-     * @param string|null $sourceId The ID of the source to update.
-     * @param array|null $params
+     * @param string|null       $id       The ID of the customer to which the source belongs.
+     * @param string|null       $sourceId The ID of the source to update.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return ApiResource
@@ -191,9 +196,9 @@ class Customer extends ApiResource
     }
 
     /**
-     * @param string|null $id The ID of the customer to which the source belongs.
-     * @param string|null $sourceId The ID of the source to delete.
-     * @param array|null $params
+     * @param string|null       $id       The ID of the customer to which the source belongs.
+     * @param string|null       $sourceId The ID of the source to delete.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return ApiResource
@@ -204,8 +209,8 @@ class Customer extends ApiResource
     }
 
     /**
-     * @param string|null $id The ID of the customer on which to retrieve the sources.
-     * @param array|null $params
+     * @param string|null       $id     The ID of the customer on which to retrieve the sources.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return Collection The list of sources.
@@ -216,8 +221,8 @@ class Customer extends ApiResource
     }
 
     /**
-     * @param string|null $id The ID of the customer on which to create the tax id.
-     * @param array|null $params
+     * @param string|null       $id     The ID of the customer on which to create the tax id.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return ApiResource
@@ -228,9 +233,9 @@ class Customer extends ApiResource
     }
 
     /**
-     * @param string|null $id The ID of the customer to which the tax id belongs.
-     * @param string|null $taxIdId The ID of the tax id to retrieve.
-     * @param array|null $params
+     * @param string|null       $id      The ID of the customer to which the tax id belongs.
+     * @param string|null       $taxIdId The ID of the tax id to retrieve.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return ApiResource
@@ -241,9 +246,9 @@ class Customer extends ApiResource
     }
 
     /**
-     * @param string|null $id The ID of the customer to which the tax id belongs.
-     * @param string|null $taxIdId The ID of the tax id to delete.
-     * @param array|null $params
+     * @param string|null       $id      The ID of the customer to which the tax id belongs.
+     * @param string|null       $taxIdId The ID of the tax id to delete.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return ApiResource
@@ -254,8 +259,8 @@ class Customer extends ApiResource
     }
 
     /**
-     * @param string|null $id The ID of the customer on which to retrieve the tax ids.
-     * @param array|null $params
+     * @param string|null       $id     The ID of the customer on which to retrieve the tax ids.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return Collection The list of tax ids.

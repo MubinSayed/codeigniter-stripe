@@ -3,7 +3,7 @@
 namespace Stripe\Reporting;
 
 /**
- * Class ReportRun
+ * Class ReportRun.
  *
  * @property string $id
  * @property string $object
@@ -15,12 +15,10 @@ namespace Stripe\Reporting;
  * @property mixed $result
  * @property string $status
  * @property int $succeeded_at
- *
- * @package Stripe\Reporting
  */
 class ReportRun extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = "reporting.report_run";
+    const OBJECT_NAME = 'reporting.report_run';
 
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Create;

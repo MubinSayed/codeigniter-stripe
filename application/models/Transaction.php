@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Transaction extends CI_Model
@@ -8,6 +9,7 @@ class Transaction extends CI_Model
     public function get_last_ten_transactions()
     {
         $query = $this->db->get('transactions', 10);
+
         return $query->result();
     }
 
@@ -15,5 +17,4 @@ class Transaction extends CI_Model
     {
         $this->db->insert('transactions', $this);
     }
-
 }

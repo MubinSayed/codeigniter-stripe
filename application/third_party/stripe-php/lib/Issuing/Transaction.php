@@ -3,7 +3,7 @@
 namespace Stripe\Issuing;
 
 /**
- * Class Transaction
+ * Class Transaction.
  *
  * @property string $id
  * @property string $object
@@ -19,12 +19,10 @@ namespace Stripe\Issuing;
  * @property mixed $merchant_data
  * @property \Stripe\StripeObject $metadata
  * @property string $type
- *
- * @package Stripe\Issuing
  */
 class Transaction extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = "issuing.transaction";
+    const OBJECT_NAME = 'issuing.transaction';
 
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Create;
