@@ -3,7 +3,7 @@
 namespace Stripe\Reporting;
 
 /**
- * Class ReportType
+ * Class ReportType.
  *
  * @property string $id
  * @property string $object
@@ -12,12 +12,10 @@ namespace Stripe\Reporting;
  * @property string $name
  * @property int $updated
  * @property string $version
- *
- * @package Stripe\Reporting
  */
 class ReportType extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = "reporting.report_type";
+    const OBJECT_NAME = 'reporting.report_type';
 
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Retrieve;

@@ -3,7 +3,7 @@
 namespace Stripe\Issuing;
 
 /**
- * Class Authorization
+ * Class Authorization.
  *
  * @property string $id
  * @property string $object
@@ -27,42 +27,42 @@ namespace Stripe\Issuing;
  * @property string $status
  * @property \Stripe\Collection $transactions
  * @property mixed $verification_data
- *
- * @package Stripe\Issuing
  */
 class Authorization extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = "issuing.authorization";
+    const OBJECT_NAME = 'issuing.authorization';
 
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Retrieve;
     use \Stripe\ApiOperations\Update;
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return Authorization The approved authorization.
      */
     public function approve($params = null, $options = null)
     {
-        $url = $this->instanceUrl() . '/approve';
+        $url = $this->instanceUrl().'/approve';
         list($response, $opts) = $this->_request('post', $url, $params, $options);
         $this->refreshFrom($response, $opts);
+
         return $this;
     }
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return Authorization The declined authorization.
      */
     public function decline($params = null, $options = null)
     {
-        $url = $this->instanceUrl() . '/decline';
+        $url = $this->instanceUrl().'/decline';
         list($response, $opts) = $this->_request('post', $url, $params, $options);
         $this->refreshFrom($response, $opts);
+
         return $this;
     }
 }

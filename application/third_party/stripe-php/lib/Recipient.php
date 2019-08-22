@@ -3,9 +3,8 @@
 namespace Stripe;
 
 /**
- * Class Recipient
+ * Class Recipient.
  *
- * @package Stripe
  *
  * @property string $id
  * @property string $object
@@ -24,8 +23,7 @@ namespace Stripe;
  */
 class Recipient extends ApiResource
 {
-
-    const OBJECT_NAME = "recipient";
+    const OBJECT_NAME = 'recipient';
 
     use ApiOperations\All;
     use ApiOperations\Create;
@@ -43,6 +41,7 @@ class Recipient extends ApiResource
         $params = $params ?: [];
         $params['recipient'] = $this->id;
         $transfers = Transfer::all($params, $this->_opts);
+
         return $transfers;
     }
 }

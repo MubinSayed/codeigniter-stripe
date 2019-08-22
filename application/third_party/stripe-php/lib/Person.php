@@ -3,9 +3,8 @@
 namespace Stripe;
 
 /**
- * Class Person
+ * Class Person.
  *
- * @package Stripe
  *
  * @property string $id
  * @property string $object
@@ -35,14 +34,14 @@ namespace Stripe;
  */
 class Person extends ApiResource
 {
-
-    const OBJECT_NAME = "person";
+    const OBJECT_NAME = 'person';
 
     use ApiOperations\Delete;
     use ApiOperations\Update;
 
     /**
      * Possible string representations of a person's gender.
+     *
      * @link https://stripe.com/docs/api/persons/object#person_object-gender
      */
     const GENDER_MALE = 'male';
@@ -50,11 +49,12 @@ class Person extends ApiResource
 
     /**
      * Possible string representations of a person's verification status.
+     *
      * @link https://stripe.com/docs/api/persons/object#person_object-verification-status
      */
-    const VERIFICATION_STATUS_PENDING    = 'pending';
+    const VERIFICATION_STATUS_PENDING = 'pending';
     const VERIFICATION_STATUS_UNVERIFIED = 'unverified';
-    const VERIFICATION_STATUS_VERIFIED   = 'verified';
+    const VERIFICATION_STATUS_VERIFIED = 'verified';
 
     /**
      * @return string The API URL for this Stripe account reversal.
@@ -65,7 +65,7 @@ class Person extends ApiResource
         $account = $this['account'];
         if (!$id) {
             throw new Error\InvalidRequest(
-                "Could not determine which URL to request: " .
+                'Could not determine which URL to request: '.
                 "class instance has invalid ID: $id",
                 null
             );
@@ -76,33 +76,36 @@ class Person extends ApiResource
         $base = Account::classUrl();
         $accountExtn = urlencode($account);
         $extn = urlencode($id);
+
         return "$base/$accountExtn/persons/$extn";
     }
 
     /**
-     * @param array|string $_id
+     * @param array|string      $_id
      * @param array|string|null $_opts
      *
      * @throws \Stripe\Error\InvalidRequest
      */
     public static function retrieve($_id, $_opts = null)
     {
-        $msg = "Persons cannot be accessed without an account ID. " .
+        $msg = 'Persons cannot be accessed without an account ID. '.
                "Retrieve a Person using \$account->retrievePerson('person_id') instead.";
+
         throw new Error\InvalidRequest($msg, null);
     }
 
     /**
-     * @param string $_id
-     * @param array|null $_params
+     * @param string            $_id
+     * @param array|null        $_params
      * @param array|string|null $_options
      *
      * @throws \Stripe\Error\InvalidRequest
      */
     public static function update($_id, $_params = null, $_options = null)
     {
-        $msg = "Persons cannot be accessed without an account ID. " .
+        $msg = 'Persons cannot be accessed without an account ID. '.
                "Retrieve a Person using \$account->retrievePerson('person_id') instead.";
+
         throw new Error\InvalidRequest($msg, null);
     }
 }

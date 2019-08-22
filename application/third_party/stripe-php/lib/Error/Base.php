@@ -22,7 +22,7 @@ abstract class Base extends Exception
 
         // TODO: make this a proper constructor argument in the next major
         //       release.
-        $this->stripeCode = isset($jsonBody["error"]["code"]) ? $jsonBody["error"]["code"] : null;
+        $this->stripeCode = isset($jsonBody['error']['code']) ? $jsonBody['error']['code'] : null;
 
         if ($httpHeaders && isset($httpHeaders['Request-Id'])) {
             $this->requestId = $httpHeaders['Request-Id'];
@@ -61,9 +61,10 @@ abstract class Base extends Exception
 
     public function __toString()
     {
-        $id = $this->requestId ? " from API request '{$this->requestId}'": "";
+        $id = $this->requestId ? " from API request '{$this->requestId}'" : '';
         $message = explode("\n", parent::__toString());
         $message[0] .= $id;
+
         return implode("\n", $message);
     }
 }

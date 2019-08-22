@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class Subscription
+ * Class Subscription.
  *
  * @property string $id
  * @property string $object
@@ -25,7 +25,7 @@ namespace Stripe;
  * @property int $ended_at
  * @property Collection $items
  * @property string $latest_invoice
- * @property boolean $livemode
+ * @property bool $livemode
  * @property StripeObject $metadata
  * @property Plan $plan
  * @property int $quantity
@@ -35,13 +35,10 @@ namespace Stripe;
  * @property float $tax_percent
  * @property int $trial_end
  * @property int $trial_start
- *
- * @package Stripe
  */
 class Subscription extends ApiResource
 {
-
-    const OBJECT_NAME = "subscription";
+    const OBJECT_NAME = 'subscription';
 
     use ApiOperations\All;
     use ApiOperations\Create;
@@ -56,12 +53,12 @@ class Subscription extends ApiResource
      *
      * @link https://stripe.com/docs/api#subscription_object-status
      */
-    const STATUS_ACTIVE             = 'active';
-    const STATUS_CANCELED           = 'canceled';
-    const STATUS_PAST_DUE           = 'past_due';
-    const STATUS_TRIALING           = 'trialing';
-    const STATUS_UNPAID             = 'unpaid';
-    const STATUS_INCOMPLETE         = 'incomplete';
+    const STATUS_ACTIVE = 'active';
+    const STATUS_CANCELED = 'canceled';
+    const STATUS_PAST_DUE = 'past_due';
+    const STATUS_TRIALING = 'trialing';
+    const STATUS_UNPAID = 'unpaid';
+    const STATUS_INCOMPLETE = 'incomplete';
     const STATUS_INCOMPLETE_EXPIRED = 'incomplete_expired';
 
     public static function getSavedNestedResources()
@@ -72,6 +69,7 @@ class Subscription extends ApiResource
                 'source',
             ]);
         }
+
         return $savedNestedResources;
     }
 
@@ -90,7 +88,7 @@ class Subscription extends ApiResource
      */
     public function deleteDiscount()
     {
-        $url = $this->instanceUrl() . '/discount';
+        $url = $this->instanceUrl().'/discount';
         list($response, $opts) = $this->_request('delete', $url);
         $this->refreshFrom(['discount' => null], $opts, true);
     }

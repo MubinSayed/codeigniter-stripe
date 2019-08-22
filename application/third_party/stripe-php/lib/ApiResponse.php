@@ -3,9 +3,7 @@
 namespace Stripe;
 
 /**
- * Class ApiResponse
- *
- * @package Stripe
+ * Class ApiResponse.
  */
 class ApiResponse
 {
@@ -15,8 +13,8 @@ class ApiResponse
     public $code;
 
     /**
-     * @param string $body
-     * @param integer $code
+     * @param string     $body
+     * @param int        $code
      * @param array|null $headers
      * @param array|null $json
      *

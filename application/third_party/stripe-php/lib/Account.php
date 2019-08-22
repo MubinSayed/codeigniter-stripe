@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class Account
+ * Class Account.
  *
  * @property string $id
  * @property string $object
@@ -25,13 +25,10 @@ namespace Stripe;
  * @property mixed $settings
  * @property mixed $tos_acceptance
  * @property string $type
- *
- * @package Stripe
  */
 class Account extends ApiResource
 {
-
-    const OBJECT_NAME = "account";
+    const OBJECT_NAME = 'account';
 
     use ApiOperations\All;
     use ApiOperations\Create;
@@ -44,33 +41,37 @@ class Account extends ApiResource
 
     /**
      * Possible string representations of an account's business type.
+     *
      * @link https://stripe.com/docs/api/accounts/object#account_object-business_type
      */
-    const BUSINESS_TYPE_COMPANY    = 'company';
+    const BUSINESS_TYPE_COMPANY = 'company';
     const BUSINESS_TYPE_INDIVIDUAL = 'individual';
 
     /**
      * Possible string representations of an account's capabilities.
+     *
      * @link https://stripe.com/docs/api/accounts/object#account_object-capabilities
      */
-    const CAPABILITY_CARD_PAYMENTS     = 'card_payments';
-    const CAPABILITY_LEGACY_PAYMENTS   = 'legacy_payments';
+    const CAPABILITY_CARD_PAYMENTS = 'card_payments';
+    const CAPABILITY_LEGACY_PAYMENTS = 'legacy_payments';
     const CAPABILITY_PLATFORM_PAYMENTS = 'platform_payments';
 
     /**
      * Possible string representations of an account's capability status.
+     *
      * @link https://stripe.com/docs/api/accounts/object#account_object-capabilities
      */
-    const CAPABILITY_STATUS_ACTIVE   = 'active';
+    const CAPABILITY_STATUS_ACTIVE = 'active';
     const CAPABILITY_STATUS_INACTIVE = 'inactive';
-    const CAPABILITY_STATUS_PENDING  = 'pending';
+    const CAPABILITY_STATUS_PENDING = 'pending';
 
     /**
      * Possible string representations of an account's type.
+     *
      * @link https://stripe.com/docs/api/accounts/object#account_object-type
      */
-    const TYPE_CUSTOM   = 'custom';
-    const TYPE_EXPRESS  = 'express';
+    const TYPE_CUSTOM = 'custom';
+    const TYPE_EXPRESS = 'express';
     const TYPE_STANDARD = 'standard';
 
     public static function getSavedNestedResources()
@@ -82,6 +83,7 @@ class Account extends ApiResource
                 'bank_account',
             ]);
         }
+
         return $savedNestedResources;
     }
 
@@ -99,8 +101,8 @@ class Account extends ApiResource
     }
 
     /**
-     * @param array|string|null $id The ID of the account to retrieve, or an
-     *     options array containing an `id` key.
+     * @param array|string|null $id   The ID of the account to retrieve, or an
+     *                                options array containing an `id` key.
      * @param array|string|null $opts
      *
      * @return Account
@@ -111,40 +113,43 @@ class Account extends ApiResource
             $opts = $id;
             $id = null;
         }
+
         return self::_retrieve($id, $opts);
     }
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return Account The rejected account.
      */
     public function reject($params = null, $opts = null)
     {
-        $url = $this->instanceUrl() . '/reject';
+        $url = $this->instanceUrl().'/reject';
         list($response, $opts) = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
+
         return $this;
     }
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return Collection The list of persons.
      */
     public function persons($params = null, $options = null)
     {
-        $url = $this->instanceUrl() . '/persons';
+        $url = $this->instanceUrl().'/persons';
         list($response, $opts) = $this->_request('get', $url, $params, $options);
         $obj = Util\Util::convertToStripeObject($response, $opts);
         $obj->setLastResponse($response);
+
         return $obj;
     }
 
     /**
-     * @param array|null $clientId
+     * @param array|null        $clientId
      * @param array|string|null $opts
      *
      * @return StripeObject Object containing the response from the API.
@@ -152,15 +157,16 @@ class Account extends ApiResource
     public function deauthorize($clientId = null, $opts = null)
     {
         $params = [
-            'client_id' => $clientId,
+            'client_id'      => $clientId,
             'stripe_user_id' => $this->id,
         ];
+
         return OAuth::deauthorize($params, $opts);
     }
 
     /**
-     * @param string|null $id The ID of the account on which to create the external account.
-     * @param array|null $params
+     * @param string|null       $id     The ID of the account on which to create the external account.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return BankAccount|Card
@@ -171,9 +177,9 @@ class Account extends ApiResource
     }
 
     /**
-     * @param string|null $id The ID of the account to which the external account belongs.
-     * @param array|null $externalAccountId The ID of the external account to retrieve.
-     * @param array|null $params
+     * @param string|null       $id                The ID of the account to which the external account belongs.
+     * @param array|null        $externalAccountId The ID of the external account to retrieve.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return BankAccount|Card
@@ -184,9 +190,9 @@ class Account extends ApiResource
     }
 
     /**
-     * @param string|null $id The ID of the account to which the external account belongs.
-     * @param array|null $externalAccountId The ID of the external account to update.
-     * @param array|null $params
+     * @param string|null       $id                The ID of the account to which the external account belongs.
+     * @param array|null        $externalAccountId The ID of the external account to update.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return BankAccount|Card
@@ -197,9 +203,9 @@ class Account extends ApiResource
     }
 
     /**
-     * @param string|null $id The ID of the account to which the external account belongs.
-     * @param array|null $externalAccountId The ID of the external account to delete.
-     * @param array|null $params
+     * @param string|null       $id                The ID of the account to which the external account belongs.
+     * @param array|null        $externalAccountId The ID of the external account to delete.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return BankAccount|Card
@@ -210,8 +216,8 @@ class Account extends ApiResource
     }
 
     /**
-     * @param string|null $id The ID of the account on which to retrieve the external accounts.
-     * @param array|null $params
+     * @param string|null       $id     The ID of the account on which to retrieve the external accounts.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return Collection The list of external accounts (BankAccount or Card).
@@ -222,8 +228,8 @@ class Account extends ApiResource
     }
 
     /**
-     * @param string|null $id The ID of the account on which to create the login link.
-     * @param array|null $params
+     * @param string|null       $id     The ID of the account on which to create the login link.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return LoginLink
@@ -234,8 +240,8 @@ class Account extends ApiResource
     }
 
     /**
-     * @param string|null $id The ID of the account on which to create the person.
-     * @param array|null $params
+     * @param string|null       $id     The ID of the account on which to create the person.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return Person
@@ -246,9 +252,9 @@ class Account extends ApiResource
     }
 
     /**
-     * @param string|null $id The ID of the account to which the person belongs.
-     * @param string|null $personId The ID of the person to retrieve.
-     * @param array|null $params
+     * @param string|null       $id       The ID of the account to which the person belongs.
+     * @param string|null       $personId The ID of the person to retrieve.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return Person
@@ -259,9 +265,9 @@ class Account extends ApiResource
     }
 
     /**
-     * @param string|null $id The ID of the account to which the person belongs.
-     * @param string|null $personId The ID of the person to update.
-     * @param array|null $params
+     * @param string|null       $id       The ID of the account to which the person belongs.
+     * @param string|null       $personId The ID of the person to update.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return Person
@@ -272,9 +278,9 @@ class Account extends ApiResource
     }
 
     /**
-     * @param string|null $id The ID of the account to which the person belongs.
-     * @param string|null $personId The ID of the person to delete.
-     * @param array|null $params
+     * @param string|null       $id       The ID of the account to which the person belongs.
+     * @param string|null       $personId The ID of the person to delete.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return Person
@@ -285,8 +291,8 @@ class Account extends ApiResource
     }
 
     /**
-     * @param string|null $id The ID of the account on which to retrieve the persons.
-     * @param array|null $params
+     * @param string|null       $id     The ID of the account on which to retrieve the persons.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return Collection The list of persons.
@@ -314,6 +320,7 @@ class Account extends ApiResource
                 $update['individual'] = $individual->serializeParameters($force);
             }
         }
+
         return $update;
     }
 
@@ -326,7 +333,7 @@ class Account extends ApiResource
         }
         if (($originalValue) && (count($originalValue) > count($additionalOwners))) {
             throw new \InvalidArgumentException(
-                "You cannot delete an item from an array, you must instead set a new array"
+                'You cannot delete an item from an array, you must instead set a new array'
             );
         }
 
@@ -342,6 +349,7 @@ class Account extends ApiResource
                 }
             }
         }
+
         return $updateArr;
     }
 }

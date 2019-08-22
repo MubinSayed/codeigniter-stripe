@@ -3,9 +3,7 @@
 namespace Stripe;
 
 /**
- * Class ApiResource
- *
- * @package Stripe
+ * Class ApiResource.
  */
 abstract class ApiResource extends StripeObject
 {
@@ -13,10 +11,10 @@ abstract class ApiResource extends StripeObject
 
     /**
      * @return \Stripe\Util\Set A list of fields that can be their own type of
-     * API resource (say a nested card under an account for example), and if
-     * that resource is set, it should be transmitted to the API on a create or
-     * update. Doing so is not the default behavior because API resources
-     * should normally be persisted on their own RESTful endpoints.
+     *                          API resource (say a nested card under an account for example), and if
+     *                          that resource is set, it should be transmitted to the API on a create or
+     *                          update. Doing so is not the default behavior because API resources
+     *                          should normally be persisted on their own RESTful endpoints.
      */
     public static function getSavedNestedResources()
     {
@@ -24,15 +22,16 @@ abstract class ApiResource extends StripeObject
         if ($savedNestedResources === null) {
             $savedNestedResources = new Util\Set();
         }
+
         return $savedNestedResources;
     }
 
     /**
-     * @var boolean A flag that can be set a behavior that will cause this
-     * resource to be encoded and sent up along with an update of its parent
-     * resource. This is usually not desirable because resources are updated
-     * individually on their own endpoints, but there are certain cases,
-     * replacing a customer's source for example, where this is allowed.
+     * @var bool A flag that can be set a behavior that will cause this
+     *           resource to be encoded and sent up along with an update of its parent
+     *           resource. This is usually not desirable because resources are updated
+     *           individually on their own endpoints, but there are certain cases,
+     *           replacing a customer's source for example, where this is allowed.
      */
     public $saveWithParent = false;
 
@@ -41,9 +40,10 @@ abstract class ApiResource extends StripeObject
         parent::__set($k, $v);
         $v = $this->$k;
         if ((static::getSavedNestedResources()->includes($k)) &&
-            ($v instanceof ApiResource)) {
+            ($v instanceof self)) {
             $v->saveWithParent = true;
         }
+
         return $v;
     }
 
@@ -63,6 +63,7 @@ abstract class ApiResource extends StripeObject
         );
         $this->setLastResponse($response);
         $this->refreshFrom($response->json, $this->_opts);
+
         return $this;
     }
 
@@ -82,6 +83,7 @@ abstract class ApiResource extends StripeObject
         // Replace dots with slashes for namespaced resources, e.g. if the object's name is
         // "foo.bar", then its URL will be "/v1/foo/bars".
         $base = str_replace('.', '/', static::OBJECT_NAME);
+
         return "/v1/${base}s";
     }
 
@@ -92,13 +94,15 @@ abstract class ApiResource extends StripeObject
     {
         if ($id === null) {
             $class = get_called_class();
-            $message = "Could not determine which URL to request: "
-               . "$class instance has invalid ID: $id";
+            $message = 'Could not determine which URL to request: '
+               ."$class instance has invalid ID: $id";
+
             throw new Error\InvalidRequest($message, null);
         }
         $id = Util\Util::utf8($id);
         $base = static::classUrl();
         $extn = urlencode($id);
+
         return "$base/$extn";
     }
 

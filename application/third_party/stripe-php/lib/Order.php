@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class Order
+ * Class Order.
  *
  * @property string $id
  * @property string $object
@@ -28,13 +28,10 @@ namespace Stripe;
  * @property mixed $status_transitions
  * @property int $updated
  * @property string $upstream_id
- *
- * @package Stripe
  */
 class Order extends ApiResource
 {
-
-    const OBJECT_NAME = "order";
+    const OBJECT_NAME = 'order';
 
     use ApiOperations\All;
     use ApiOperations\Create;
@@ -46,9 +43,10 @@ class Order extends ApiResource
      */
     public function pay($params = null, $opts = null)
     {
-        $url = $this->instanceUrl() . '/pay';
+        $url = $this->instanceUrl().'/pay';
         list($response, $opts) = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
+
         return $this;
     }
 
@@ -57,8 +55,9 @@ class Order extends ApiResource
      */
     public function returnOrder($params = null, $opts = null)
     {
-        $url = $this->instanceUrl() . '/returns';
+        $url = $this->instanceUrl().'/returns';
         list($response, $opts) = $this->_request('post', $url, $params, $opts);
+
         return Util\Util::convertToStripeObject($response, $opts);
     }
 }

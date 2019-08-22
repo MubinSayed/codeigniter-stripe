@@ -10,7 +10,7 @@ namespace Stripe\ApiOperations;
 trait Delete
 {
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return static The deleted resource.
@@ -22,6 +22,7 @@ trait Delete
         $url = $this->instanceUrl();
         list($response, $opts) = $this->_request('delete', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
+
         return $this;
     }
 }

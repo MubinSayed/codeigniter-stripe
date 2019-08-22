@@ -3,7 +3,7 @@
 namespace Stripe\Issuing;
 
 /**
- * Class Card
+ * Class Card.
  *
  * @property string $id
  * @property string $object
@@ -22,12 +22,10 @@ namespace Stripe\Issuing;
  * @property mixed $shipping
  * @property string $status
  * @property string $type
- *
- * @package Stripe\Issuing
  */
 class Card extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = "issuing.card";
+    const OBJECT_NAME = 'issuing.card';
 
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Create;
@@ -35,17 +33,18 @@ class Card extends \Stripe\ApiResource
     use \Stripe\ApiOperations\Update;
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return CardDetails The card details associated with that issuing card.
      */
     public function details($params = null, $options = null)
     {
-        $url = $this->instanceUrl() . '/details';
+        $url = $this->instanceUrl().'/details';
         list($response, $opts) = $this->_request('get', $url, $params, $options);
         $obj = \Stripe\Util\Util::convertToStripeObject($response, $opts);
         $obj->setLastResponse($response);
+
         return $obj;
     }
 }

@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class FileLink
+ * Class FileLink.
  *
  * @property string $id
  * @property string $object
@@ -14,13 +14,10 @@ namespace Stripe;
  * @property bool $livemode
  * @property StripeObject $metadata
  * @property string $url
- *
- * @package Stripe
  */
 class FileLink extends ApiResource
 {
-
-    const OBJECT_NAME = "file_link";
+    const OBJECT_NAME = 'file_link';
 
     use ApiOperations\All;
     use ApiOperations\Create;

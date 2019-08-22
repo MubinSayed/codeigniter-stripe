@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class BalanceTransaction
+ * Class BalanceTransaction.
  *
  * @property string $id
  * @property string $object
@@ -19,23 +19,20 @@ namespace Stripe;
  * @property string $source
  * @property string $status
  * @property string $type
- *
- * @package Stripe
  */
 class BalanceTransaction extends ApiResource
 {
-
-    const OBJECT_NAME = "balance_transaction";
+    const OBJECT_NAME = 'balance_transaction';
 
     use ApiOperations\All;
     use ApiOperations\Retrieve;
 
     /**
      * @return string The class URL for this resource. It needs to be special
-     *    cased because it doesn't fit into the standard resource pattern.
+     *                cased because it doesn't fit into the standard resource pattern.
      */
     public static function classUrl()
     {
-        return "/v1/balance/history";
+        return '/v1/balance/history';
     }
 }

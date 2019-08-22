@@ -3,9 +3,7 @@
 namespace Stripe;
 
 /**
- * Class ApiRequestor
- *
- * @package Stripe
+ * Class ApiRequestor.
  */
 class ApiRequestor
 {
@@ -45,26 +43,29 @@ class ApiRequestor
     }
 
     /**
-     * Creates a telemetry json blob for use in 'X-Stripe-Client-Telemetry' headers
+     * Creates a telemetry json blob for use in 'X-Stripe-Client-Telemetry' headers.
+     *
      * @static
      *
      * @param RequestTelemetry $requestTelemetry
+     *
      * @return string
      */
     private static function _telemetryJson($requestTelemetry)
     {
-        $payload = array(
-            'last_request_metrics' => array(
-                'request_id' => $requestTelemetry->requestId,
+        $payload = [
+            'last_request_metrics' => [
+                'request_id'          => $requestTelemetry->requestId,
                 'request_duration_ms' => $requestTelemetry->requestDuration,
-        ));
+        ], ];
 
         $result = json_encode($payload);
         if ($result != false) {
             return $result;
         } else {
-            Stripe::getLogger()->error("Serializing telemetry payload failed!");
-            return "{}";
+            Stripe::getLogger()->error('Serializing telemetry payload failed!');
+
+            return '{}';
         }
     }
 
@@ -88,6 +89,7 @@ class ApiRequestor
             foreach ($d as $k => $v) {
                 $res[$k] = self::_encodeObjects($v);
             }
+
             return $res;
         } else {
             return Util\Util::utf8($d);
@@ -100,8 +102,6 @@ class ApiRequestor
      * @param array|null $params
      * @param array|null $headers
      *
-     * @return array An array whose first element is an API response and second
-     *    element is the API key used to make the request.
      * @throws Error\Api
      * @throws Error\Authentication
      * @throws Error\Card
@@ -116,6 +116,9 @@ class ApiRequestor
      * @throws Error\RateLimit
      * @throws Error\Idempotency
      * @throws Error\ApiConnection
+     *
+     * @return array An array whose first element is an API response and second
+     *               element is the API key used to make the request.
      */
     public function request($method, $url, $params = null, $headers = null)
     {
@@ -125,41 +128,43 @@ class ApiRequestor
         $this->_requestRaw($method, $url, $params, $headers);
         $json = $this->_interpretResponse($rbody, $rcode, $rheaders);
         $resp = new ApiResponse($rbody, $rcode, $rheaders, $json);
+
         return [$resp, $myApiKey];
     }
 
     /**
-     * @param string $rbody A JSON string.
-     * @param int $rcode
-     * @param array $rheaders
-     * @param array $resp
+     * @param string $rbody    A JSON string.
+     * @param int    $rcode
+     * @param array  $rheaders
+     * @param array  $resp
      *
-     * @throws Error\InvalidRequest if the error is caused by the user.
-     * @throws Error\Authentication if the error is caused by a lack of
-     *    permissions.
-     * @throws Error\Permission if the error is caused by insufficient
-     *    permissions.
-     * @throws Error\Card if the error is the error code is 402 (payment
-     *    required)
-     * @throws Error\InvalidRequest if the error is caused by the user.
-     * @throws Error\Idempotency if the error is caused by an idempotency key.
+     * @throws Error\InvalidRequest                if the error is caused by the user.
+     * @throws Error\Authentication                if the error is caused by a lack of
+     *                                             permissions.
+     * @throws Error\Permission                    if the error is caused by insufficient
+     *                                             permissions.
+     * @throws Error\Card                          if the error is the error code is 402 (payment
+     *                                             required)
+     * @throws Error\InvalidRequest                if the error is caused by the user.
+     * @throws Error\Idempotency                   if the error is caused by an idempotency key.
      * @throws Error\OAuth\InvalidClient
      * @throws Error\OAuth\InvalidGrant
      * @throws Error\OAuth\InvalidRequest
      * @throws Error\OAuth\InvalidScope
      * @throws Error\OAuth\UnsupportedGrantType
      * @throws Error\OAuth\UnsupportedResponseType
-     * @throws Error\Permission if the error is caused by insufficient
-     *    permissions.
-     * @throws Error\RateLimit if the error is caused by too many requests
-     *    hitting the API.
-     * @throws Error\Api otherwise.
+     * @throws Error\Permission                    if the error is caused by insufficient
+     *                                             permissions.
+     * @throws Error\RateLimit                     if the error is caused by too many requests
+     *                                             hitting the API.
+     * @throws Error\Api                           otherwise.
      */
     public function handleErrorResponse($rbody, $rcode, $rheaders, $resp)
     {
         if (!is_array($resp) || !isset($resp['error'])) {
             $msg = "Invalid response object from API: $rbody "
-              . "(HTTP response code was $rcode)";
+              ."(HTTP response code was $rcode)";
+
             throw new Error\Api($msg, $rcode, $rbody, $resp, $rheaders);
         }
 
@@ -250,8 +255,6 @@ class ApiRequestor
             case 'unsupported_response_type':
                 return new Error\OAuth\UnsupportedResponseType($errorCode, $description, $rcode, $rbody, $resp, $rheaders);
         }
-
-        return null;
     }
 
     /**
@@ -266,14 +269,15 @@ class ApiRequestor
         if ($appInfo !== null) {
             $string = $appInfo['name'];
             if ($appInfo['version'] !== null) {
-                $string .= '/' . $appInfo['version'];
+                $string .= '/'.$appInfo['version'];
             }
             if ($appInfo['url'] !== null) {
-                $string .= ' (' . $appInfo['url'] . ')';
+                $string .= ' ('.$appInfo['url'].')';
             }
+
             return $string;
         } else {
-            return null;
+            return;
         }
     }
 
@@ -287,7 +291,7 @@ class ApiRequestor
      */
     private static function _defaultHeaders($apiKey, $clientInfo = null)
     {
-        $uaString = 'Stripe/v1 PhpBindings/' . Stripe::VERSION;
+        $uaString = 'Stripe/v1 PhpBindings/'.Stripe::VERSION;
 
         $langVersion = phpversion();
         $uname = php_uname();
@@ -295,24 +299,25 @@ class ApiRequestor
         $appInfo = Stripe::getAppInfo();
         $ua = [
             'bindings_version' => Stripe::VERSION,
-            'lang' => 'php',
-            'lang_version' => $langVersion,
-            'publisher' => 'stripe',
-            'uname' => $uname,
+            'lang'             => 'php',
+            'lang_version'     => $langVersion,
+            'publisher'        => 'stripe',
+            'uname'            => $uname,
         ];
         if ($clientInfo) {
             $ua = array_merge($clientInfo, $ua);
         }
         if ($appInfo !== null) {
-            $uaString .= ' ' . self::_formatAppInfo($appInfo);
+            $uaString .= ' '.self::_formatAppInfo($appInfo);
             $ua['application'] = $appInfo;
         }
 
         $defaultHeaders = [
             'X-Stripe-Client-User-Agent' => json_encode($ua),
-            'User-Agent' => $uaString,
-            'Authorization' => 'Bearer ' . $apiKey,
+            'User-Agent'                 => $uaString,
+            'Authorization'              => 'Bearer '.$apiKey,
         ];
+
         return $defaultHeaders;
     }
 
@@ -322,10 +327,11 @@ class ApiRequestor
      * @param array  $params
      * @param array  $headers
      *
-     * @return array
      * @throws Error\Api
      * @throws Error\ApiConnection
      * @throws Error\Authentication
+     *
+     * @return array
      */
     private function _requestRaw($method, $url, $params, $headers)
     {
@@ -336,9 +342,10 @@ class ApiRequestor
 
         if (!$myApiKey) {
             $msg = 'No API key provided.  (HINT: set your API key using '
-              . '"Stripe::setApiKey(<API-KEY>)".  You can generate API keys from '
-              . 'the Stripe web interface.  See https://stripe.com/api for '
-              . 'details, or email support@stripe.com if you have any questions.';
+              .'"Stripe::setApiKey(<API-KEY>)".  You can generate API keys from '
+              .'the Stripe web interface.  See https://stripe.com/api for '
+              .'details, or email support@stripe.com if you have any questions.';
+
             throw new Error\Authentication($msg);
         }
 
@@ -362,7 +369,7 @@ class ApiRequestor
         }
 
         if (Stripe::$enableTelemetry && self::$requestTelemetry != null) {
-            $defaultHeaders["X-Stripe-Client-Telemetry"] = self::_telemetryJson(self::$requestTelemetry);
+            $defaultHeaders['X-Stripe-Client-Telemetry'] = self::_telemetryJson(self::$requestTelemetry);
         }
 
         $hasFile = false;
@@ -386,7 +393,7 @@ class ApiRequestor
         $rawHeaders = [];
 
         foreach ($combinedHeaders as $header => $value) {
-            $rawHeaders[] = $header . ': ' . $value;
+            $rawHeaders[] = $header.': '.$value;
         }
 
         $requestStartMs = Util\Util::currentTimeMillis();
@@ -413,8 +420,9 @@ class ApiRequestor
      * @param resource $resource
      * @param bool     $hasCurlFile
      *
-     * @return \CURLFile|string
      * @throws Error\Api
+     *
+     * @return \CURLFile|string
      */
     private function _processResourceParam($resource, $hasCurlFile)
     {
@@ -444,7 +452,6 @@ class ApiRequestor
      * @param int    $rcode
      * @param array  $rheaders
      *
-     * @return mixed
      * @throws Error\Api
      * @throws Error\Authentication
      * @throws Error\Card
@@ -458,6 +465,8 @@ class ApiRequestor
      * @throws Error\Permission
      * @throws Error\RateLimit
      * @throws Error\Idempotency
+     *
+     * @return mixed
      */
     private function _interpretResponse($rbody, $rcode, $rheaders)
     {
@@ -465,13 +474,15 @@ class ApiRequestor
         $jsonError = json_last_error();
         if ($resp === null && $jsonError !== JSON_ERROR_NONE) {
             $msg = "Invalid response body from API: $rbody "
-              . "(HTTP response code was $rcode, json_last_error() was $jsonError)";
+              ."(HTTP response code was $rcode, json_last_error() was $jsonError)";
+
             throw new Error\Api($msg, $rcode, $rbody);
         }
 
         if ($rcode < 200 || $rcode >= 300) {
             $this->handleErrorResponse($rbody, $rcode, $rheaders, $resp);
         }
+
         return $resp;
     }
 
@@ -503,6 +514,7 @@ class ApiRequestor
         if (!self::$_httpClient) {
             self::$_httpClient = HttpClient\CurlClient::instance();
         }
+
         return self::$_httpClient;
     }
 }

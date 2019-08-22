@@ -2,8 +2,8 @@
 
 namespace Stripe\HttpClient;
 
-use Stripe\Stripe;
 use Stripe\Error;
+use Stripe\Stripe;
 use Stripe\Util;
 
 // cURL constants are not defined in PHP < 5.5
@@ -35,6 +35,7 @@ class CurlClient implements ClientInterface
         if (!self::$instance) {
             self::$instance = new self();
         }
+
         return self::$instance;
     }
 
@@ -83,8 +84,8 @@ class CurlClient implements ClientInterface
     {
         $curlVersion = curl_version();
         $this->userAgentInfo = [
-            'httplib' =>  'curl ' . $curlVersion['version'],
-            'ssllib' => $curlVersion['ssl_version'],
+            'httplib' => 'curl '.$curlVersion['version'],
+            'ssllib'  => $curlVersion['ssl_version'],
         ];
     }
 
@@ -99,7 +100,7 @@ class CurlClient implements ClientInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getEnablePersistentConnections()
     {
@@ -107,7 +108,7 @@ class CurlClient implements ClientInterface
     }
 
     /**
-     * @param boolean $enable
+     * @param bool $enable
      */
     public function setEnablePersistentConnections($enable)
     {
@@ -115,7 +116,7 @@ class CurlClient implements ClientInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getEnableHttp2()
     {
@@ -123,7 +124,7 @@ class CurlClient implements ClientInterface
     }
 
     /**
-     * @param boolean $enable
+     * @param bool $enable
      */
     public function setEnableHttp2($enable)
     {
@@ -141,12 +142,14 @@ class CurlClient implements ClientInterface
     public function setTimeout($seconds)
     {
         $this->timeout = (int) max($seconds, 0);
+
         return $this;
     }
 
     public function setConnectTimeout($seconds)
     {
         $this->connectTimeout = (int) max($seconds, 0);
+
         return $this;
     }
 
@@ -170,7 +173,7 @@ class CurlClient implements ClientInterface
         if (is_callable($this->defaultOptions)) { // call defaultOptions callback, set options to return value
             $opts = call_user_func_array($this->defaultOptions, func_get_args());
             if (!is_array($opts)) {
-                throw new Error\Api("Non-array value returned by defaultOptions CurlClient callback");
+                throw new Error\Api('Non-array value returned by defaultOptions CurlClient callback');
             }
         } elseif (is_array($this->defaultOptions)) { // set default curlopts from array
             $opts = $this->defaultOptions;
@@ -181,7 +184,7 @@ class CurlClient implements ClientInterface
         if ($method == 'get') {
             if ($hasFile) {
                 throw new Error\Api(
-                    "Issuing a GET request with a file parameter"
+                    'Issuing a GET request with a file parameter'
                 );
             }
             $opts[CURLOPT_HTTPGET] = 1;
@@ -205,8 +208,8 @@ class CurlClient implements ClientInterface
         // It is only safe to retry network failures on POST requests if we
         // add an Idempotency-Key header
         if (($method == 'post') && (Stripe::$maxNetworkRetries > 0)) {
-            if (!$this->hasHeader($headers, "Idempotency-Key")) {
-                array_push($headers, 'Idempotency-Key: ' . $this->randomGenerator->uuid());
+            if (!$this->hasHeader($headers, 'Idempotency-Key')) {
+                array_push($headers, 'Idempotency-Key: '.$this->randomGenerator->uuid());
             }
         }
 
@@ -214,11 +217,12 @@ class CurlClient implements ClientInterface
         $rheaders = new Util\CaseInsensitiveArray();
         $headerCallback = function ($curl, $header_line) use (&$rheaders) {
             // Ignore the HTTP request line (HTTP/1.1 200 OK)
-            if (strpos($header_line, ":") === false) {
+            if (strpos($header_line, ':') === false) {
                 return strlen($header_line);
             }
-            list($key, $value) = explode(":", trim($header_line), 2);
+            list($key, $value) = explode(':', trim($header_line), 2);
             $rheaders[trim($key)] = trim($value);
+
             return strlen($header_line);
         };
 
@@ -301,9 +305,10 @@ class CurlClient implements ClientInterface
 
     /**
      * @param string $url
-     * @param int $errno
+     * @param int    $errno
      * @param string $message
-     * @param int $numRetries
+     * @param int    $numRetries
+     *
      * @throws Error\ApiConnection
      */
     private function handleCurlError($url, $errno, $message, $numRetries)
@@ -313,22 +318,22 @@ class CurlClient implements ClientInterface
             case CURLE_COULDNT_RESOLVE_HOST:
             case CURLE_OPERATION_TIMEOUTED:
                 $msg = "Could not connect to Stripe ($url).  Please check your "
-                 . "internet connection and try again.  If this problem persists, "
-                 . "you should check Stripe's service status at "
-                 . "https://twitter.com/stripestatus, or";
+                 .'internet connection and try again.  If this problem persists, '
+                 ."you should check Stripe's service status at "
+                 .'https://twitter.com/stripestatus, or';
                 break;
             case CURLE_SSL_CACERT:
             case CURLE_SSL_PEER_CERTIFICATE:
                 $msg = "Could not verify Stripe's SSL certificate.  Please make sure "
-                 . "that your network is not intercepting certificates.  "
-                 . "(Try going to $url in your browser.)  "
-                 . "If this problem persists,";
+                 .'that your network is not intercepting certificates.  '
+                 ."(Try going to $url in your browser.)  "
+                 .'If this problem persists,';
                 break;
             default:
-                $msg = "Unexpected error communicating with Stripe.  "
-                 . "If this problem persists,";
+                $msg = 'Unexpected error communicating with Stripe.  '
+                 .'If this problem persists,';
         }
-        $msg .= " let us know at support@stripe.com.";
+        $msg .= ' let us know at support@stripe.com.';
 
         $msg .= "\n\n(Network error [errno $errno]: $message)";
 
@@ -343,9 +348,11 @@ class CurlClient implements ClientInterface
      * Checks if an error is a problem that we should retry on. This includes both
      * socket errors that may represent an intermittent problem and some special
      * HTTP statuses.
+     *
      * @param int $errno
      * @param int $rcode
      * @param int $numRetries
+     *
      * @return bool
      */
     private function shouldRetry($errno, $rcode, $numRetries)
@@ -430,22 +437,24 @@ class CurlClient implements ClientInterface
     /**
      * Indicates whether it is safe to use HTTP/2 or not.
      *
-     * @return boolean
+     * @return bool
      */
     private function canSafelyUseHttp2()
     {
         // Versions of curl older than 7.60.0 don't respect GOAWAY frames
         // (cf. https://github.com/curl/curl/issues/2416), which Stripe use.
         $curlVersion = curl_version()['version'];
-        return (version_compare($curlVersion, '7.60.0') >= 0);
+
+        return version_compare($curlVersion, '7.60.0') >= 0;
     }
 
     /**
      * Checks if a list of headers contains a specific header name.
      *
      * @param string[] $headers
-     * @param string $name
-     * @return boolean
+     * @param string   $name
+     *
+     * @return bool
      */
     private function hasHeader($headers, $name)
     {

@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class SubscriptionSchedule
+ * Class SubscriptionSchedule.
  *
  * @property string $id
  * @property string $object
@@ -15,7 +15,7 @@ namespace Stripe;
  * @property mixed $current_phase
  * @property string $customer
  * @property mixed $invoice_settings
- * @property boolean $livemode
+ * @property bool $livemode
  * @property StripeObject $metadata
  * @property mixed $phases
  * @property int $released_at
@@ -25,13 +25,10 @@ namespace Stripe;
  * @property string $revision
  * @property string $status
  * @property string $subscription
- *
- * @package Stripe
  */
 class SubscriptionSchedule extends ApiResource
 {
-
-    const OBJECT_NAME = "subscription_schedule";
+    const OBJECT_NAME = 'subscription_schedule';
 
     use ApiOperations\All;
     use ApiOperations\Create;
@@ -42,52 +39,55 @@ class SubscriptionSchedule extends ApiResource
     const PATH_REVISIONS = '/revisions';
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return SubscriptionSchedule The canceled subscription schedule.
      */
     public function cancel($params = null, $opts = null)
     {
-        $url = $this->instanceUrl() . '/cancel';
+        $url = $this->instanceUrl().'/cancel';
         list($response, $opts) = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
+
         return $this;
     }
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return SubscriptionSchedule The released subscription schedule.
      */
     public function release($params = null, $opts = null)
     {
-        $url = $this->instanceUrl() . '/release';
+        $url = $this->instanceUrl().'/release';
         list($response, $opts) = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
+
         return $this;
     }
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return Collection The list of subscription schedule revisions.
      */
     public function revisions($params = null, $options = null)
     {
-        $url = $this->instanceUrl() . '/revisions';
+        $url = $this->instanceUrl().'/revisions';
         list($response, $opts) = $this->_request('get', $url, $params, $options);
         $obj = Util\Util::convertToStripeObject($response, $opts);
         $obj->setLastResponse($response);
+
         return $obj;
     }
 
     /**
-     * @param array|null $id The ID of the subscription schedule to which the person belongs.
-     * @param array|null $personId The ID of the person to retrieve.
-     * @param array|null $params
+     * @param array|null        $id       The ID of the subscription schedule to which the person belongs.
+     * @param array|null        $personId The ID of the person to retrieve.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return Revision
@@ -98,8 +98,8 @@ class SubscriptionSchedule extends ApiResource
     }
 
     /**
-     * @param array|null $id The ID of the subscription schedule on which to retrieve the persons.
-     * @param array|null $params
+     * @param array|null        $id     The ID of the subscription schedule on which to retrieve the persons.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return Collection The list of revisions.

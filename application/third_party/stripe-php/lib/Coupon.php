@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class Coupon
+ * Class Coupon.
  *
  * @property string $id
  * @property string $object
@@ -20,13 +20,10 @@ namespace Stripe;
  * @property int $redeem_by
  * @property int $times_redeemed
  * @property bool $valid
- *
- * @package Stripe
  */
 class Coupon extends ApiResource
 {
-
-    const OBJECT_NAME = "coupon";
+    const OBJECT_NAME = 'coupon';
 
     use ApiOperations\All;
     use ApiOperations\Create;

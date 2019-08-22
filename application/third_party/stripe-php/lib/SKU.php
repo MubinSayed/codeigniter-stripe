@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class SKU
+ * Class SKU.
  *
  * @property string $id
  * @property string $object
@@ -19,13 +19,10 @@ namespace Stripe;
  * @property int $price
  * @property string $product
  * @property int $updated
- *
- * @package Stripe
  */
 class SKU extends ApiResource
 {
-
-    const OBJECT_NAME = "sku";
+    const OBJECT_NAME = 'sku';
 
     use ApiOperations\All;
     use ApiOperations\Create;

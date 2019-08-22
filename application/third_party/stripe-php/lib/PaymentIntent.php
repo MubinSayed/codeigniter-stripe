@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class PaymentIntent
+ * Class PaymentIntent.
  *
  * @property string $id
  * @property string $object
@@ -37,13 +37,10 @@ namespace Stripe;
  * @property string $status
  * @property mixed $transfer_data
  * @property string $transfer_group
- *
- * @package Stripe
  */
 class PaymentIntent extends ApiResource
 {
-
-    const OBJECT_NAME = "payment_intent";
+    const OBJECT_NAME = 'payment_intent';
 
     use ApiOperations\All;
     use ApiOperations\Create;
@@ -51,44 +48,47 @@ class PaymentIntent extends ApiResource
     use ApiOperations\Update;
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return PaymentIntent The canceled payment intent.
      */
     public function cancel($params = null, $options = null)
     {
-        $url = $this->instanceUrl() . '/cancel';
+        $url = $this->instanceUrl().'/cancel';
         list($response, $opts) = $this->_request('post', $url, $params, $options);
         $this->refreshFrom($response, $opts);
+
         return $this;
     }
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return PaymentIntent The captured payment intent.
      */
     public function capture($params = null, $options = null)
     {
-        $url = $this->instanceUrl() . '/capture';
+        $url = $this->instanceUrl().'/capture';
         list($response, $opts) = $this->_request('post', $url, $params, $options);
         $this->refreshFrom($response, $opts);
+
         return $this;
     }
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return PaymentIntent The confirmed payment intent.
      */
     public function confirm($params = null, $options = null)
     {
-        $url = $this->instanceUrl() . '/confirm';
+        $url = $this->instanceUrl().'/confirm';
         list($response, $opts) = $this->_request('post', $url, $params, $options);
         $this->refreshFrom($response, $opts);
+
         return $this;
     }
 }

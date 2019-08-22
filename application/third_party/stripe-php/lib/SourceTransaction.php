@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class SourceTransaction
+ * Class SourceTransaction.
  *
  * @property string $id
  * @property string $object
@@ -13,11 +13,8 @@ namespace Stripe;
  * @property string $currency
  * @property string $type
  * @property mixed $ach_credit_transfer
- *
- * @package Stripe
  */
 class SourceTransaction extends ApiResource
 {
-
-    const OBJECT_NAME = "source_transaction";
+    const OBJECT_NAME = 'source_transaction';
 }

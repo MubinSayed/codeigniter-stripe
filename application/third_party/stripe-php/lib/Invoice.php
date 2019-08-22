@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class Invoice
+ * Class Invoice.
  *
  * @property string $id
  * @property string $object
@@ -63,13 +63,10 @@ namespace Stripe;
  * @property int $total
  * @property array $total_tax_amounts
  * @property int $webhooks_delivered_at
- *
- * @package Stripe
  */
 class Invoice extends ApiResource
 {
-
-    const OBJECT_NAME = "invoice";
+    const OBJECT_NAME = 'invoice';
 
     use ApiOperations\All;
     use ApiOperations\Create;
@@ -79,115 +76,124 @@ class Invoice extends ApiResource
 
     /**
      * Possible string representations of the invoice status.
+     *
      * @link https://stripe.com/docs/api/invoices/object#invoice_object-status
      */
-    const STATUS_DRAFT         = 'draft';
-    const STATUS_OPEN          = 'open';
-    const STATUS_PAID          = 'paid';
+    const STATUS_DRAFT = 'draft';
+    const STATUS_OPEN = 'open';
+    const STATUS_PAID = 'paid';
     const STATUS_UNCOLLECTIBLE = 'uncollectible';
-    const STATUS_VOID          = 'void';
+    const STATUS_VOID = 'void';
 
     /**
      * Possible string representations of the billing.
+     *
      * @link https://stripe.com/docs/api/invoices/object#invoice_object-billing
      */
-    const BILLING_SEND_INVOICE         = 'send_invoice';
+    const BILLING_SEND_INVOICE = 'send_invoice';
     const BILLING_CHARGE_AUTOMATICALLY = 'charge_automatically';
 
     /**
      * Possible string representations of the billing reason.
+     *
      * @link https://stripe.com/docs/api/invoices/object#invoice_object-billing_reason
      */
-    const BILLING_REASON_SUBSCRIPTION           = 'subscription';
-    const BILLING_REASON_SUBSCRIPTION_CREATE    = 'subscription_create';
-    const BILLING_REASON_SUBSCRIPTION_CYCLE     = 'subscription_cycle';
-    const BILLING_REASON_SUBSCRIPTION_UPDATE    = 'subscription_update';
+    const BILLING_REASON_SUBSCRIPTION = 'subscription';
+    const BILLING_REASON_SUBSCRIPTION_CREATE = 'subscription_create';
+    const BILLING_REASON_SUBSCRIPTION_CYCLE = 'subscription_cycle';
+    const BILLING_REASON_SUBSCRIPTION_UPDATE = 'subscription_update';
     const BILLING_REASON_SUBSCRIPTION_THRESHOLD = 'subscription_threshold';
-    const BILLING_REASON_MANUAL                 = 'manual';
-    const BILLING_REASON_UPCOMING               = 'upcoming';
+    const BILLING_REASON_MANUAL = 'manual';
+    const BILLING_REASON_UPCOMING = 'upcoming';
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return Invoice The finalized invoice.
      */
     public function finalizeInvoice($params = null, $opts = null)
     {
-        $url = $this->instanceUrl() . '/finalize';
+        $url = $this->instanceUrl().'/finalize';
         list($response, $opts) = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
+
         return $this;
     }
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return Invoice The uncollectible invoice.
      */
     public function markUncollectible($params = null, $opts = null)
     {
-        $url = $this->instanceUrl() . '/mark_uncollectible';
+        $url = $this->instanceUrl().'/mark_uncollectible';
         list($response, $opts) = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
+
         return $this;
     }
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return Invoice The paid invoice.
      */
     public function pay($params = null, $opts = null)
     {
-        $url = $this->instanceUrl() . '/pay';
+        $url = $this->instanceUrl().'/pay';
         list($response, $opts) = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
+
         return $this;
     }
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return Invoice The sent invoice.
      */
     public function sendInvoice($params = null, $opts = null)
     {
-        $url = $this->instanceUrl() . '/send';
+        $url = $this->instanceUrl().'/send';
         list($response, $opts) = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
+
         return $this;
     }
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return Invoice The upcoming invoice.
      */
     public static function upcoming($params = null, $opts = null)
     {
-        $url = static::classUrl() . '/upcoming';
+        $url = static::classUrl().'/upcoming';
         list($response, $opts) = static::_staticRequest('get', $url, $params, $opts);
         $obj = Util\Util::convertToStripeObject($response->json, $opts);
         $obj->setLastResponse($response);
+
         return $obj;
     }
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return Invoice The voided invoice.
      */
     public function voidInvoice($params = null, $opts = null)
     {
-        $url = $this->instanceUrl() . '/void';
+        $url = $this->instanceUrl().'/void';
         list($response, $opts) = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
+
         return $this;
     }
 }

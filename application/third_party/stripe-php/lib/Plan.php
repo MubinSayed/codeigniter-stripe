@@ -3,9 +3,8 @@
 namespace Stripe;
 
 /**
- * Class Plan
+ * Class Plan.
  *
- * @package Stripe
  *
  * @property string $id
  * @property string $object
@@ -29,8 +28,7 @@ namespace Stripe;
  */
 class Plan extends ApiResource
 {
-
-    const OBJECT_NAME = "plan";
+    const OBJECT_NAME = 'plan';
 
     use ApiOperations\All;
     use ApiOperations\Create;
